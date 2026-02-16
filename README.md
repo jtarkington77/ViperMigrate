@@ -76,7 +76,7 @@ ViperMigrate captures a Windows workstation's complete configuration into a sing
 | **Wi-Fi** | Saved wireless network profiles with credentials |
 | **Shortcuts** | Desktop, Start Menu, taskbar pins, Quick Launch, and startup entries |
 | **Outlook** | Email signatures, recent files, and profile configuration |
-| **App Settings** | Per-application configs for Thunderbird, VS Code, OBS, Discord, and more |
+| **App Settings** | Application configurations and profiles from AppData (roaming and local) |
 | **Drive Maps** | Mapped network drives with credentials |
 | **Scanners** | WIA scanner/imaging device profiles |
 
