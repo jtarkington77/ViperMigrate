@@ -1,0 +1,42 @@
+<Application x:Class="ViperMigrate.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ViperMigrate.App.ViewModels"
+             xmlns:views="clr-namespace:ViperMigrate.App.Views"
+             xmlns:conv="clr-namespace:ViperMigrate.App.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <conv:NullToVisibleConverter x:Key="NullToVisibleConverter" />
+            <conv:NotNullToVisibleConverter x:Key="NotNullToVisibleConverter" />
+            <conv:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <conv:StageStatusToColorConverter x:Key="StageStatusToColorConverter" />
+            <conv:StringToVisibilityConverter x:Key="StringToVisibility" />
+            <conv:CountToVisibilityConverter x:Key="CountToVisibility" />
+            <conv:CountToCollapsedConverter x:Key="CountToCollapsed" />
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+            <!-- DataTemplates for view navigation -->
+            <DataTemplate DataType="{x:Type vm:CaptureViewModel}">
+                <views:CaptureView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:RestoreViewModel}">
+                <views:RestoreView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ProgressViewModel}">
+                <views:ProgressView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:SummaryViewModel}">
+                <views:SummaryView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:SelectionViewModel}">
+                <views:SelectionView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

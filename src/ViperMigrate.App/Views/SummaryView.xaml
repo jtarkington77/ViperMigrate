@@ -1,0 +1,160 @@
+<UserControl x:Class="ViperMigrate.App.Views.SummaryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Summary"
+                       Style="{StaticResource Heading}" />
+            <TextBlock Style="{StaticResource SubHeading}" Margin="0,4,0,0">
+                <Run Text="Completed: " />
+                <Run Text="{Binding SuccessCount, Mode=OneWay}" Foreground="#00C853" />
+                <Run Text="  Warnings: " />
+                <Run Text="{Binding WarningCount, Mode=OneWay}" Foreground="#FFC107" />
+                <Run Text="  Errors: " />
+                <Run Text="{Binding ErrorCount, Mode=OneWay}" Foreground="#F44336" />
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Scrollable content: Results + Manual Actions -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,16">
+            <StackPanel>
+                <!-- Results by Category -->
+                <TextBlock Text="Results by Category"
+                           Foreground="{StaticResource TextBrush}"
+                           FontSize="16" FontWeight="SemiBold"
+                           Margin="0,0,0,8" />
+
+                <ItemsControl ItemsSource="{Binding DetailedResults}" Margin="0,0,0,16">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource SurfaceBrush}"
+                                    CornerRadius="4" Padding="12,8" Margin="0,0,0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Color dot -->
+                                    <Ellipse Grid.Column="0" Width="10" Height="10"
+                                             VerticalAlignment="Center" Margin="0,0,8,0"
+                                             Fill="{Binding Status, Converter={StaticResource StatusToColorConverter}}" />
+                                    <!-- Category + detail -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Category}"
+                                                   Foreground="{StaticResource TextBrush}"
+                                                   FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding Detail}"
+                                                   Foreground="{StaticResource SubtextBrush}"
+                                                   FontSize="12" />
+                                    </StackPanel>
+                                    <!-- Count -->
+                                    <TextBlock Grid.Column="2"
+                                               Foreground="{StaticResource SubtextBrush}"
+                                               VerticalAlignment="Center" Margin="12,0">
+                                        <Run Text="{Binding ItemsProcessed, Mode=OneWay}" />
+                                        <Run Text="/" />
+                                        <Run Text="{Binding ItemsTotal, Mode=OneWay}" />
+                                    </TextBlock>
+                                    <!-- Status text -->
+                                    <TextBlock Grid.Column="3" Text="{Binding StatusDisplay}"
+                                               Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Manual Actions Header -->
+                <TextBlock Text="Manual Actions Required"
+                           Foreground="{StaticResource TextBrush}"
+                           FontSize="16" FontWeight="SemiBold"
+                           Margin="0,0,0,8" />
+
+                <!-- Manual Actions List with CheckBoxes -->
+                <ItemsControl ItemsSource="{Binding CheckableActions}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource SurfaceBrush}"
+                                    CornerRadius="4" Padding="12,8" Margin="0,0,0,4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Checkbox -->
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked}"
+                                              VerticalAlignment="Top" Margin="0,2,8,0" />
+                                    <!-- Content -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Title}"
+                                                   Foreground="{StaticResource TextBrush}"
+                                                   FontWeight="SemiBold"
+                                                   TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding Description}"
+                                                   Foreground="{StaticResource SubtextBrush}"
+                                                   FontSize="12" Margin="0,4,0,0"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <!-- Priority badge -->
+                                    <Border Grid.Column="2" CornerRadius="3"
+                                            Padding="6,2" Margin="8,0,0,0"
+                                            VerticalAlignment="Top">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#555555" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Critical">
+                                                        <Setter Property="Background" Value="#B71C1C" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="High">
+                                                        <Setter Property="Background" Value="#E65100" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Medium">
+                                                        <Setter Property="Background" Value="#F57F17" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Priority}" Value="Low">
+                                                        <Setter Property="Background" Value="#555555" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding Priority}"
+                                                   Foreground="White"
+                                                   FontSize="11" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Bottom bar: Export Report + Done (always visible) -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Export Report"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding ExportReportCommand}" />
+            <Button Grid.Column="2" Content="Done"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding BackToHomeCommand}" />
+        </Grid>
+    </Grid>
+</UserControl>
