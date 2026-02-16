@@ -23,6 +23,49 @@ ViperMigrate captures a Windows workstation's complete configuration into a sing
 
 **Capture** a source machine → **Transfer** the package → **Restore** on the target machine.
 
+## Screenshots
+
+<p align="center">
+  <img src="assets/HomeScreen.png" alt="Home Screen" width="700" />
+  <br><em>Home Screen</em>
+</p>
+
+<details>
+<summary><strong>📸 Capture Workflow</strong></summary>
+<br>
+
+| Pre-Capture Setup | Capture in Progress | Capture Summary |
+|:-:|:-:|:-:|
+| <img src="assets/Pre-Capture.png" width="280" /> | <img src="assets/Capture-Process.png" width="280" /> | <img src="assets/Capture-Summary.png" width="280" /> |
+
+</details>
+
+<details>
+<summary><strong>🔄 Restore Workflow</strong></summary>
+<br>
+
+| Load Package | Review & Select | Restore in Progress |
+|:-:|:-:|:-:|
+| <img src="assets/Restore-Loader.png" width="280" /> | <img src="assets/Restore-Review.png" width="280" /> | <img src="assets/Restore-Process.png" width="280" /> |
+
+| Restore Complete |
+|:-:|
+| <img src="assets/Restore.png" width="400" /> |
+
+</details>
+
+<details>
+<summary><strong>📊 Reports</strong></summary>
+<br>
+
+| Migration Report | Completion Report |
+|:-:|:-:|
+| <img src="assets/Report.png" width="400" /> | <img src="assets/Completion-Report.png" width="400" /> |
+
+</details>
+
+---
+
 ### What Gets Migrated
 
 | Category | Details |
@@ -54,10 +97,14 @@ ViperMigrate captures a Windows workstation's complete configuration into a sing
 - Administrator privileges (for printer, Wi-Fi, and driver operations)
 - [winget](https://github.com/microsoft/winget-cli) (pre-installed on Windows 11, available for Windows 10)
 
+## Download
+
+Grab the latest release from the [Releases](https://github.com/jtarkington77/ViperMigrate/releases) page — single portable `.exe`, no installation required.
+
 ## Building
 
 ```bash
-dotnet build src/ViperMigrate.App/ViperMigrate.App.csproj -c Release
+dotnet publish src/ViperMigrate.App/ViperMigrate.App.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
 ```
 
 Or open `ViperMigrate.sln` in Visual Studio 2022 and build.
@@ -79,7 +126,8 @@ ViperMigrate/
 │       ├── Common/                # Shared utilities, helpers, report generator
 │       ├── Models/                # Data models for captured items
 │       └── Restore/
-│           └── Applicators/       # Per-category restore logic                       # Test projects                      # Branding assets
+│           └── Applicators/       # Per-category restore logic                     # Test projects
+├── assets/                        # Branding assets and screenshots
 └── ViperMigrate.sln
 ```
 
