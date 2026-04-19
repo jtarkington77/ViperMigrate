@@ -69,3 +69,6 @@ Desktop.ini
 # Test captures
 TestCapture/
 TestRestore/
+
+# Export/sharing archives
+*.zip
